@@ -1,6 +1,7 @@
+import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 
-export const Container = ({ children }: { children: React.ReactNode }) => {
+export const Container = ({ children }) => {
   return <SafeAreaView style={styles.container}>{children}</SafeAreaView>;
 };
 

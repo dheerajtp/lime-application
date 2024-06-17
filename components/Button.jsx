@@ -1,12 +1,7 @@
-import { forwardRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import React, { forwardRef } from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-type ButtonProps = {
-  onPress?: TouchableOpacityProps['onPress'];
-  title?: string;
-} & TouchableOpacityProps;
-
-export const Button = forwardRef<TouchableOpacity, ButtonProps>(({ onPress, title }, ref) => {
+const Button = forwardRef(({ onPress, title }, ref) => {
   return (
     <TouchableOpacity ref={ref} style={styles.button} onPress={onPress}>
       <Text style={styles.buttonText}>{title}</Text>
@@ -38,3 +33,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default Button;

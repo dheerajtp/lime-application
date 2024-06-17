@@ -1,7 +1,8 @@
+import React from 'react';
 import { Stack, useLocalSearchParams } from 'expo-router';
 
-import { Container } from '~/components/Container';
-import { ScreenContent } from '~/components/ScreenContent';
+import { Container } from '../components/Container';
+import { ScreenContent } from '../components/ScreenContent';
 
 export default function Details() {
   const { name } = useLocalSearchParams();
@@ -10,7 +11,7 @@ export default function Details() {
     <>
       <Stack.Screen options={{ title: 'Details' }} />
       <Container>
-        <ScreenContent path="screens/details.tsx" title={`Showing details for user ${name}`} />
+        <ScreenContent path="screens/details.js" title={`Showing details for user ${name}`} />
       </Container>
     </>
   );
