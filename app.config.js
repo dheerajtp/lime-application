@@ -16,6 +16,7 @@ module.exports = {
         '@rnmapbox/maps',
         {
           RNMapboxMapsDownloadToken: process.env.EXPO_PUBLIC_RN_MAP_SECRET_KEY,
+          RNMapboxMapsVersion: '11.0.0',
         },
       ],
     ],
