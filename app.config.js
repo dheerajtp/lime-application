@@ -17,6 +17,11 @@ module.exports = {
         {
           RNMapboxMapsDownloadToken: process.env.EXPO_PUBLIC_RN_MAP_SECRET_KEY,
           RNMapboxMapsVersion: '11.0.0',
+        },
+      ],
+      [
+        'expo-location',
+        {
           locationWhenInUsePermission: 'Show current location on map.',
         },
       ],
