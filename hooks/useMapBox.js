@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
 import Mapbox from '@rnmapbox/maps';
 import { Alert } from 'react-native';
+import { featureCollection, point } from '@turf/helpers';
+import scooters from '../data/scooters.json';
 
 const useMapbox = () => {
   const [accessToken, setAccessToken] = useState('');
   const [locationPermission, setLocationPermission] = useState(false);
-
+  const points = scooters.map((scooter) => point([scooter.long, scooter.lat]));
+  const scootersFeatures = featureCollection(points);
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -22,7 +25,7 @@ const useMapbox = () => {
     })();
   }, []);
 
-  return { accessToken, locationPermission };
+  return { accessToken, locationPermission, scootersFeatures };
 };
 
 export default useMapbox;

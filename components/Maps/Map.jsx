@@ -3,11 +3,10 @@ import { MapView, Camera, LocationPuck, ShapeSource, SymbolLayer, Images } from 
 import useMapbox from '../../hooks/useMapBox';
 import { Alert } from 'react-native';
 import Error from './Error';
-import { featureCollection, point } from '@turf/helpers';
 import pin from '../../assets/motorbike.png';
 
 const Map = () => {
-  const { accessToken, locationPermission } = useMapbox();
+  const { accessToken, locationPermission, scootersFeatures } = useMapbox();
 
   if (!accessToken || !locationPermission) {
     Alert.alert(
@@ -21,9 +20,7 @@ const Map = () => {
     <MapView style={{ flex: 1 }} styleURL="mapbox://styles/mapbox/dark-v11">
       <Camera followUserLocation followZoomLevel={10} />
       <LocationPuck pulsing={{ isEnabled: true }} />
-      <ShapeSource
-        id="scooters"
-        shape={featureCollection([point([41.3907, 2.1589]), point([2.1589, 41.3907])])}>
+      <ShapeSource id="scooters" shape={scootersFeatures}>
         <SymbolLayer
           id="scooter-icons"
           minZoomLevel={1}
