@@ -1,5 +1,13 @@
 import React from 'react';
-import { MapView, Camera, LocationPuck, ShapeSource, SymbolLayer, Images } from '@rnmapbox/maps';
+import {
+  MapView,
+  Camera,
+  LocationPuck,
+  ShapeSource,
+  SymbolLayer,
+  Images,
+  CircleLayer,
+} from '@rnmapbox/maps';
 import useMapbox from '../../hooks/useMapBox';
 import { Alert } from 'react-native';
 import Error from './Error';
@@ -20,9 +28,31 @@ const Map = () => {
     <MapView style={{ flex: 1 }} styleURL="mapbox://styles/mapbox/dark-v11">
       <Camera followUserLocation followZoomLevel={10} />
       <LocationPuck pulsing={{ isEnabled: true }} />
-      <ShapeSource id="scooters" shape={scootersFeatures}>
+      <ShapeSource id="scooters" shape={scootersFeatures} cluster>
+        <SymbolLayer
+          id="clusterCount"
+          style={{
+            textField: ['get', 'point_count'],
+            textSize: 16,
+            textColor: '#ffffff',
+            textPitchAlignment: 'map',
+          }}
+        />
+        <CircleLayer
+          id="clusteredScooters"
+          filter={['has', 'point_count']}
+          style={{
+            circlePitchAlignment: 'map',
+            circleColor: '#42E100',
+            circleRadius: 10,
+            circleOpacity: 0.7,
+            circleStrokeWidth: 0.2,
+            circleStrokeColor: 'white',
+          }}
+        />
         <SymbolLayer
           id="scooter-icons"
+          filter={['!', ['has', 'point_count']]}
           minZoomLevel={1}
           style={{ iconImage: 'pin', iconAllowOverlap: true, iconSize: 0.05, iconAnchor: 'bottom' }}
         />
