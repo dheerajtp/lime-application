@@ -10,8 +10,9 @@ const useMapbox = () => {
   const [accessToken, setAccessToken] = useState('');
   const [locationPermission, setLocationPermission] = useState(false);
   const [directions, setDirections] = useState(null);
+  const [selectedScooter, setSelectedScooter] = useState(null);
 
-  const points = scooters.map((scooter) => point([scooter.long, scooter.lat]));
+  const points = scooters.map((scooter) => point([scooter.long, scooter.lat], { scooter }));
   const scootersFeatures = featureCollection(points);
   useEffect(() => {
     (async () => {
@@ -51,6 +52,9 @@ const useMapbox = () => {
   };
   const onPointPress = async (event) => {
     setDirections(null);
+    if (event.features[0].properties?.scooter) {
+      setSelectedScooter(event.features[0].properties.scooter);
+    }
     let currentLocationResult = await getCurrentLocation();
     if (!currentLocationResult.status) {
       return Alert.alert(currentLocationResult.error ?? 'Some Error Occured');
@@ -63,10 +67,18 @@ const useMapbox = () => {
     if (!directionsResult.status) {
       return Alert.alert(directionsResult.error ?? 'Some Error Occured');
     }
-
+    console.log(' === directions result === ');
+    console.log(JSON.stringify(directionsResult.result));
     setDirections(directionsResult.result);
   };
-  return { accessToken, locationPermission, scootersFeatures, onPointPress, directions };
+  return {
+    accessToken,
+    locationPermission,
+    scootersFeatures,
+    onPointPress,
+    directions,
+    selectedScooter,
+  };
 };
 
 export default useMapbox;

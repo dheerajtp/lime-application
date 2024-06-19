@@ -15,8 +15,14 @@ import Error from './Error';
 import pin from '../../assets/motorbike.png';
 
 const Map = () => {
-  const { accessToken, locationPermission, scootersFeatures, onPointPress, directions } =
-    useMapbox();
+  const {
+    accessToken,
+    locationPermission,
+    scootersFeatures,
+    onPointPress,
+    directions,
+    selectedScooter,
+  } = useMapbox();
 
   if (!accessToken || !locationPermission) {
     Alert.alert(

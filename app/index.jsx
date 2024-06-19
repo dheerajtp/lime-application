@@ -7,7 +7,7 @@ import Map from '../components/Maps/Map';
 export default function Home() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Home' }} />
+      <Stack.Screen options={{ title: 'Home', headerShown: false }} />
       <Container>
         <Map />
       </Container>
