@@ -7,6 +7,7 @@ import {
   SymbolLayer,
   Images,
   CircleLayer,
+  LineLayer,
 } from '@rnmapbox/maps';
 import useMapbox from '../../hooks/useMapBox';
 import { Alert } from 'react-native';
@@ -14,7 +15,8 @@ import Error from './Error';
 import pin from '../../assets/motorbike.png';
 
 const Map = () => {
-  const { accessToken, locationPermission, scootersFeatures } = useMapbox();
+  const { accessToken, locationPermission, scootersFeatures, onPointPress, directions } =
+    useMapbox();
 
   if (!accessToken || !locationPermission) {
     Alert.alert(
@@ -24,11 +26,12 @@ const Map = () => {
     return <Error />;
   }
 
+  const directionCoordinate = directions?.routes?.[0]?.geometry?.coordinates;
   return (
     <MapView style={{ flex: 1 }} styleURL="mapbox://styles/mapbox/dark-v11">
       <Camera followUserLocation followZoomLevel={10} />
       <LocationPuck pulsing={{ isEnabled: true }} />
-      <ShapeSource id="scooters" shape={scootersFeatures} cluster>
+      <ShapeSource id="scooters" shape={scootersFeatures} cluster onPress={(e) => onPointPress(e)}>
         <SymbolLayer
           id="clusterCount"
           style={{
@@ -57,6 +60,29 @@ const Map = () => {
           style={{ iconImage: 'pin', iconAllowOverlap: true, iconSize: 0.05, iconAnchor: 'bottom' }}
         />
         <Images images={{ pin }} />
+        {directionCoordinate && (
+          <ShapeSource
+            id="routeSource"
+            lineMetrics
+            shape={{
+              properties: {},
+              type: 'Feature',
+              geometry: {
+                type: 'LineString',
+                coordinates: directionCoordinate,
+              },
+            }}>
+            <LineLayer
+              id="exampleLineLayer"
+              style={{
+                lineColor: '#42A2D9',
+                lineCap: 'round',
+                lineJoin: 'round',
+                lineWidth: 7,
+              }}
+            />
+          </ShapeSource>
+        )}
       </ShapeSource>
     </MapView>
   );
