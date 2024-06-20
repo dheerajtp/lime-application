@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import * as Location from 'expo-location';
 import Mapbox from '@rnmapbox/maps';
 import { Alert } from 'react-native';
@@ -50,7 +50,7 @@ const useMapbox = () => {
       };
     }
   };
-  const onPointPress = async (event) => {
+  const onPointPress = useCallback(async (event) => {
     setDirections(null);
     if (event.features[0].properties?.scooter) {
       setSelectedScooter(event.features[0].properties.scooter);
@@ -67,10 +67,11 @@ const useMapbox = () => {
     if (!directionsResult.status) {
       return Alert.alert(directionsResult.error ?? 'Some Error Occured');
     }
-    console.log(' === directions result === ');
-    console.log(JSON.stringify(directionsResult.result));
+    // console.log(' === directions result === ');
+    // console.log(JSON.stringify(directionsResult.result));
     setDirections(directionsResult.result);
-  };
+  }, []);
+
   return {
     accessToken,
     locationPermission,
